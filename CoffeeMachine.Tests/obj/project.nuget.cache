@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "g2RdrXX2edK8ftMGoVbElpb6wT0M1IbRG5j2XTOGdQQA6v3NnNqOKLIZBgQldWONYaMMfTYfrpCraeEGrP88vg==",
+  "dgSpecHash": "fMD1b1b30UTaQKB5oFB3gjwLF2jhB5j87ErAd2qdQd9sddcWddAC64xkwObXF1tRpaQDsYeFuZvcREDsFIctwQ==",
   "success": true,
   "projectFilePath": "/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine.Tests/CoffeeMachine.Tests.csproj",
   "expectedPackageFiles": [

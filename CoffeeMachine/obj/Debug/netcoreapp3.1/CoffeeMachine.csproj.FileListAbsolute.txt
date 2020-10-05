@@ -1,0 +1,12 @@
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/bin/Debug/netcoreapp3.1/CoffeeMachine.deps.json
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/bin/Debug/netcoreapp3.1/CoffeeMachine.runtimeconfig.json
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/bin/Debug/netcoreapp3.1/CoffeeMachine.runtimeconfig.dev.json
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/bin/Debug/netcoreapp3.1/CoffeeMachine.dll
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/bin/Debug/netcoreapp3.1/CoffeeMachine.pdb
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.csprojAssemblyReference.cache
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.AssemblyInfoInputs.cache
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.AssemblyInfo.cs
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.csproj.CoreCompileInputs.cache
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.dll
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.pdb
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine/obj/Debug/netcoreapp3.1/CoffeeMachine.genruntimeconfig.cache
