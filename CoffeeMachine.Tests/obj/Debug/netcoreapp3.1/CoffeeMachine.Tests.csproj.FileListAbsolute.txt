@@ -96,3 +96,5 @@
 /Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine.Tests/obj/Debug/netcoreapp3.1/CoffeeMachine.Tests.dll
 /Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine.Tests/obj/Debug/netcoreapp3.1/CoffeeMachine.Tests.pdb
 /Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine.Tests/obj/Debug/netcoreapp3.1/CoffeeMachine.Tests.genruntimeconfig.cache
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine.Tests/bin/Debug/netcoreapp3.1/Castle.Core.dll
+/Users/Michael.Wang/Desktop/MYOB/MYOB Katas/Language Design/CoffeeMachineKata/CoffeeMachine.Tests/bin/Debug/netcoreapp3.1/Moq.dll

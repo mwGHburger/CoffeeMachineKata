@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
 
 namespace CoffeeMachine.Tests
@@ -6,21 +8,12 @@ namespace CoffeeMachine.Tests
     public class DrinkMakerProtocolTests
     {
         [Theory]
-        [InlineData("T:1:0", "tea", 1)]
-        [InlineData("H::", "chocolate", 0)]
-        [InlineData("C:2:0", "coffee", 2)]
-        public void ShouldReturnStringCommand_ForGivenCustomerOrder(string expected, string drinkType, int sugarQuantity)
+        [ClassData(typeof(DrinksTestData))]
+        public void ShouldReturnStringCommand_ForGivenCustomerOrder(string expected, IDrink drinkType, int sugarQuantity, bool isExtraHot = false)
         {
-            var order = new Order(drinkType, sugarQuantity);
-            var actual = DrinkMakerProtocol.TranslateCustomerOrder(order);
+            var order = new Order(drinkType: drinkType, sugarQuantity: sugarQuantity, isExtraHot: isExtraHot);
+            var actual = DrinkMakerProtocol.GenerateCommandFromCustomerOrder(order);
             Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ShouldThrowException_ForIncorrectDrinkType()
-        {
-            var order = new Order("smoothie", 1);
-            Assert.Throws<Exception>(() => DrinkMakerProtocol.TranslateCustomerOrder(order));
         }
 
         [Theory]
@@ -31,24 +24,50 @@ namespace CoffeeMachine.Tests
             Assert.Equal(expected, actual);
         }
         
-
-        // TODO: Think about where the Payment sits amongst all other Domain object. For now I've included it as part of order.
         [Fact]
         public void ShouldAcceptPaymentForDrink_WhenPaymentIsGreaterThanCost()
         {
-            var order = new Order("tea",1, paymentAmount: 1);
+            var order = new Order(new Tea(),1, paymentAmount: 1);
             var actual = DrinkMakerProtocol.AssessPayment(order);
             Assert.Equal("T:1:0", actual);
         }
 
         [Theory]
-        [InlineData("M:Not enough money provided, missing 0.10", "tea",1,0.3)]
-        [InlineData("M:Not enough money provided, missing 0.30", "coffee",1,0.3)]
-        public void ShouldNotAcceptPaymentForDrink_WhenPaymentIsLessThanCost(string expected, string drinkType, int sugarQuantity, double paymentAmount)
+        [ClassData(typeof(UnacceptedPaymentTestData))]
+        public void ShouldNotAcceptPaymentForDrink_WhenPaymentIsLessThanCost(string expected, IDrink drinkType, int sugarQuantity, double paymentAmount)
         {
-            var order = new Order(drinkType,sugarQuantity, paymentAmount);
+            var order = new Order(drinkType, sugarQuantity, paymentAmount);
             var actual = DrinkMakerProtocol.AssessPayment(order);
             Assert.Equal(expected, actual);
         }
     }
+    public class DrinksTestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { "T:1:0", new Tea(), 1 };
+            yield return new object[] { "H::", new Chocolate(), 0};
+            yield return new object[] { "C:2:0", new Coffee(), 2};
+            
+            yield return new object[] { "O::", new Orange(), 0};
+            yield return new object[] { "Ch::", new Coffee(), 0, true};
+            yield return new object[] { "Hh:1:0", new Chocolate(), 1, true};
+            yield return new object[] { "Th:2:0", new Tea(), 2, true};
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class UnacceptedPaymentTestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { "M:Not enough money provided, missing 0.10", new Tea(), 1, 0.3 };
+            yield return new object[] { "M:Not enough money provided, missing 0.30", new Coffee(), 1, 0.3 };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
 }
+
+
