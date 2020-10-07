@@ -22,7 +22,7 @@ namespace CoffeeMachine
             return GenerateCommandFromCustomerOrder(order);
         }
         
-        public static string GenerateCommandFromCustomerOrder(Order order)
+        private static string GenerateCommandFromCustomerOrder(Order order)
         {
             var drinkType = GetDrinkTypeCharacter(order);
             var extraHot = GetExtraHot(order);
