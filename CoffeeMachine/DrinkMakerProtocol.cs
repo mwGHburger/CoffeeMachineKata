@@ -5,18 +5,23 @@ namespace CoffeeMachine
 {
     public class DrinkMakerProtocol
     {
+        public static string GenerateProtocolCommand(Order order, IBeverageQuantityChecker quantityChecker, IEmailNotifier notifier)
+        {
+            if (!HasSufficientPayment(order))
+            {
+                var moneyChange = GetDrinkCost(order) - order.PaymentAmount;
+                return TranslateMessage($"Not enough money provided, missing {moneyChange:N2}");
+            }
 
-        public static string AssessPayment(Order order)
-        {
-            var drinkCost = GetDrinkTypeCost(order);
-            var paymentAcceptanceCondition = order.PaymentAmount >= drinkCost;
-            var moneyChange = (drinkCost - order.PaymentAmount);
-            return (paymentAcceptanceCondition) ? GenerateCommandFromCustomerOrder(order) : TranslateMessage($"Not enough money provided, missing {moneyChange:N2}");
+            if (!quantityChecker.HasEnoughQuantity())
+            {
+                notifier.Notify();
+                return TranslateMessage("Beverage Shortage");
+            }
+
+            return GenerateCommandFromCustomerOrder(order);
         }
-        public static string TranslateMessage(string message)
-        {
-            return $"M:{message}";
-        }
+        
         public static string GenerateCommandFromCustomerOrder(Order order)
         {
             var drinkType = GetDrinkTypeCharacter(order);
@@ -25,7 +30,17 @@ namespace CoffeeMachine
             var stick = GetStick(order);
             return $"{drinkType}{extraHot}:{sugarQuantity}:{stick}";
         }
+
+        private static string TranslateMessage(string message)
+        {
+            return $"M:{message}";
+        }
         
+        private static bool HasSufficientPayment(Order order)
+        {
+            var paymentAcceptanceCondition = order.PaymentAmount >= GetDrinkCost(order);
+            return (paymentAcceptanceCondition);
+        }
         private static string GetExtraHot(Order order)
         {
             return order.IsExtraHot ? "h" : "";
@@ -46,7 +61,7 @@ namespace CoffeeMachine
             return (order.SugarQuantity > 0) ? "0" : "";
         }
 
-        private static double GetDrinkTypeCost(Order order)
+        private static double GetDrinkCost(Order order)
         {
             return order.DrinkType.Cost;
         }

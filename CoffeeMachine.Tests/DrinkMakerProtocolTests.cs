@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Moq;
 using Xunit;
 
 namespace CoffeeMachine.Tests
@@ -11,24 +12,21 @@ namespace CoffeeMachine.Tests
         [ClassData(typeof(DrinksTestData))]
         public void ShouldReturnStringCommand_ForGivenCustomerOrder(string expected, IDrink drinkType, int sugarQuantity, bool isExtraHot = false)
         {
-            var order = new Order(drinkType: drinkType, sugarQuantity: sugarQuantity, isExtraHot: isExtraHot);
-            var actual = DrinkMakerProtocol.GenerateCommandFromCustomerOrder(order);
-            Assert.Equal(expected, actual);
-        }
+            var order = new Order(drinkType: drinkType, sugarQuantity: sugarQuantity, isExtraHot: isExtraHot, paymentAmount: 1);
+            var quantityChecker = new BeverageQuantityChecker();
+            var notifier = new EmailNotifier(); 
 
-        [Theory]
-        [InlineData("M:message-content", "message-content")]
-        public void ShouldReturnStringCommand_ForGivenMessage(string expected, string message)
-        {
-            var actual = DrinkMakerProtocol.TranslateMessage(message);
+            var actual = DrinkMakerProtocol.GenerateProtocolCommand(order, quantityChecker, notifier);
             Assert.Equal(expected, actual);
         }
         
         [Fact]
         public void ShouldAcceptPaymentForDrink_WhenPaymentIsGreaterThanCost()
         {
-            var order = new Order(new Tea(),1, paymentAmount: 1);
-            var actual = DrinkMakerProtocol.AssessPayment(order);
+            var order = new Order(new Tea(),sugarQuantity: 1, paymentAmount: 1);
+            var quantityChecker = new BeverageQuantityChecker();
+            var notifier = new EmailNotifier(); 
+            var actual = DrinkMakerProtocol.GenerateProtocolCommand(order, quantityChecker, notifier);
             Assert.Equal("T:1:0", actual);
         }
 
@@ -37,8 +35,41 @@ namespace CoffeeMachine.Tests
         public void ShouldNotAcceptPaymentForDrink_WhenPaymentIsLessThanCost(string expected, IDrink drinkType, int sugarQuantity, double paymentAmount)
         {
             var order = new Order(drinkType, sugarQuantity, paymentAmount);
-            var actual = DrinkMakerProtocol.AssessPayment(order);
+            var quantityChecker = new BeverageQuantityChecker();
+            var notifier = new EmailNotifier();
+            var actual = DrinkMakerProtocol.GenerateProtocolCommand(order,quantityChecker,notifier);
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ShouldNotifyCompany_IfIngredientShortage()
+        {
+            var order = new Order(new Tea(), sugarQuantity: 1, paymentAmount: 1);
+            var mockBeverageQuantityChecker = new Mock<IBeverageQuantityChecker>();
+            var mockEmailNotifier = new Mock<IEmailNotifier>();
+
+            mockBeverageQuantityChecker.Setup(x => x.HasEnoughQuantity()).Returns(false);
+            mockEmailNotifier.Setup(x => x.Notify());
+
+            DrinkMakerProtocol.GenerateProtocolCommand(order, mockBeverageQuantityChecker.Object, mockEmailNotifier.Object);
+
+            mockBeverageQuantityChecker.Verify(x => x.HasEnoughQuantity());
+            mockEmailNotifier.Verify(x => x.Notify());
+        }
+
+        [Fact]
+        public void ShouldReturnMessage_IfIngredientShortage()
+        {
+            var order = new Order(new Tea(), sugarQuantity: 1, paymentAmount: 1);
+            var mockBeverageQuantityChecker = new Mock<IBeverageQuantityChecker>();
+            var mockEmailNotifier = new Mock<IEmailNotifier>();
+
+            mockBeverageQuantityChecker.Setup(x => x.HasEnoughQuantity()).Returns(false);
+            mockEmailNotifier.Setup(x => x.Notify());
+
+            var actual = DrinkMakerProtocol.GenerateProtocolCommand(order, mockBeverageQuantityChecker.Object, mockEmailNotifier.Object);
+
+            Assert.Equal("M:Beverage Shortage",actual);
         }
     }
     public class DrinksTestData : IEnumerable<object[]>

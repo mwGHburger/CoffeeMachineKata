@@ -18,7 +18,6 @@ namespace CoffeeMachine.Tests
             mockCalculator.Setup(x => x.CalculateTotalDrinksSold(It.IsAny<IDataRepository>())).Returns(3);
             mockCalculator.Setup(x => x.CalculateTotalMoneyEarned(It.IsAny<IDataRepository>())).Returns(1.5);
             
-
             report.Print(mockCalculator.Object, dataRepository);
 
             mockCalculator.Verify(x => x.CalculateTotalDrinksSold(It.IsAny<IDataRepository>()));
