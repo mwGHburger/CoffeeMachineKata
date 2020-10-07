@@ -10,7 +10,6 @@ namespace CoffeeMachine.Tests
         [Fact]
         public void ShouldPrintDrinkDataReport()
         {
-            // TODO: Do I still need to mock the dataRepository?
             var report = new Report();
             var mockCalculator = new Mock<ICalculate>();
             var dataRepository = new DataRepository();
