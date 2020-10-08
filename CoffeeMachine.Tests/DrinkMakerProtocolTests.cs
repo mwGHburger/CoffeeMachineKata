@@ -89,6 +89,8 @@ namespace CoffeeMachine.Tests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
+    
+
     public class UnacceptedPaymentTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
