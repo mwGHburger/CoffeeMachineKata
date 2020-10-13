@@ -4,5 +4,6 @@ namespace CoffeeMachine
     {
         string Symbol { get; }
         double Cost { get; }
+        string Name { get; }
     }
 }

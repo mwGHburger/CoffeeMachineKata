@@ -31,6 +31,24 @@ namespace CoffeeMachine.Tests
         }
 
         [Fact]
+        public void ReturnDictionaryOfNumberOfDrinksSoldForEachDrink()
+        {
+            var expected = new Dictionary<string, int>();
+            expected.Add("Tea", 1);
+            expected.Add("Coffee", 2);
+            expected.Add("Chocolate", 2);
+
+            var calulator = new Calculator();
+            var mockDataRepository = new Mock<IDataRepository>();
+
+            mockDataRepository.Setup(x => x.OrdersList).Returns(data);
+
+            var actual = calulator.CalculateEachDrinkQuantitySold(mockDataRepository.Object);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void ReturnMoneyEarned_GivenRepositoryDrinkOrders()
         {
             var calculator = new Calculator();
